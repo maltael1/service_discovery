@@ -69,6 +69,6 @@ class ServiceRegistrationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def service_registration_params
-      params.require(:service_registration).permit(:service_id, :status_cd, :host, :code)
+      params.require(:service_registration).permit(:service_id, :status_cd, :host, :code, :token)
     end
 end

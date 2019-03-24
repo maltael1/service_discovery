@@ -5,6 +5,7 @@ class CreateServiceRegistrations < ActiveRecord::Migration[5.2]
       t.integer :status_cd
       t.string :host
       t.string :code
+      t.string :token
 
       t.timestamps
     end

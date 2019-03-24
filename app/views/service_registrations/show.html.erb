@@ -20,5 +20,10 @@
   <%= @service_registration.code %>
 </p>
 
+<p>
+  <strong>Token:</strong>
+  <%= @service_registration.token %>
+</p>
+
 <%= link_to 'Edit', edit_service_registration_path(@service_registration) %> |
 <%= link_to 'Back', service_registrations_path %>
