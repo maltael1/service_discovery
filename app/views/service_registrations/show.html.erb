@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Service:</strong>
+  <%= @service_registration.service %>
+</p>
+
+<p>
+  <strong>Status cd:</strong>
+  <%= @service_registration.status_cd %>
+</p>
+
+<p>
+  <strong>Host:</strong>
+  <%= @service_registration.host %>
+</p>
+
+<p>
+  <strong>Code:</strong>
+  <%= @service_registration.code %>
+</p>
+
+<%= link_to 'Edit', edit_service_registration_path(@service_registration) %> |
+<%= link_to 'Back', service_registrations_path %>

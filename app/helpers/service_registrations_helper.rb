@@ -1,0 +1,2 @@
+module ServiceRegistrationsHelper
+end
