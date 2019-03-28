@@ -1,9 +1,26 @@
-<p id="notice"><%= notice %></p>
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-info-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="true">Service</a>
+    <a class="nav-item nav-link" id="nav-registrations-tab" data-toggle="tab" href="#nav-registrations" role="tab" aria-controls="nav-registrations" aria-selected="false">Registrations</a>
+  </div>
+</nav>
+<div class="tab-content pt-4" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+    <p>
+      <strong>Name:</strong>
+      <%= @service.name %>
+    </p>
+    <p>
+      <strong>Code:</strong>
+      <%= @service.code %>
+    </p>
+    <%= link_to 'Edit', edit_service_path(@service), class: 'btn btn-info' %>
+  </div>
+  <div class="tab-pane fade" id="nav-registrations" role="tabpanel" aria-labelledby="nav-registrations-tab">...</div>
+</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @service.name %>
-</p>
-
-<%= link_to 'Edit', edit_service_path(@service) %> |
-<%= link_to 'Back', services_path %>
+<script>
+$(document).ready(function() {
+    $("#nav-tab").tabs();
+});
+</script>

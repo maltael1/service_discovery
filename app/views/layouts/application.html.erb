@@ -10,6 +10,23 @@
   </head>
 
   <body>
+  <nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Service discovery panel</a>
+  </nav>
+  <div class="d-flex">
+    <ul class="list-group col-2">
+      <a href="<%= root_path %>" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+      <a href="<%= services_path %>" class="list-group-item list-group-item-action bg-light">Services</a>
+      <a href="<%= service_registrations_path%>" class="list-group-item list-group-item-action bg-light">Service regisistrations</a>
+    </ul>
+    <div class="col-9 my-4">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+         <%= @breadcumb.to_s.html_safe %>
+        </ol>
+      </nav>
     <%= yield %>
+    </div>
+  </div>
   </body>
 </html>

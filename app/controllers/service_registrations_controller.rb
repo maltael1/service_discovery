@@ -4,6 +4,7 @@ class ServiceRegistrationsController < ApplicationController
   # GET /service_registrations
   # GET /service_registrations.json
   def index
+    drop_breadcumbs :service_registrations, service_registrations_path
     @service_registrations = ServiceRegistration.all
   end
 

@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2019_03_24_170956) do
 
   create_table "services", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
+    t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

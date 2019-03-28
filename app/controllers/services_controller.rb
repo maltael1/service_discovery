@@ -4,21 +4,29 @@ class ServicesController < ApplicationController
   # GET /services
   # GET /services.json
   def index
+    drop_breadcumbs :services, services_path
     @services = Service.all
   end
 
   # GET /services/1
   # GET /services/1.json
   def show
+    drop_breadcumbs :services, services_path
+    drop_breadcumbs @service.name, service_path(@service)
   end
 
   # GET /services/new
   def new
+    drop_breadcumbs :services, services_path
+    drop_breadcumbs :new
     @service = Service.new
   end
 
   # GET /services/1/edit
   def edit
+    drop_breadcumbs :services, services_path
+    drop_breadcumbs @service.name, service_path(@service)
+    drop_breadcumbs :edit
   end
 
   # POST /services
@@ -69,6 +77,6 @@ class ServicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def service_params
-      params.require(:service).permit(:name)
+      params.require(:service).permit(:name, :code)
     end
 end
