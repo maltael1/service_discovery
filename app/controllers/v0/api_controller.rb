@@ -8,8 +8,8 @@ class V0::ApiController < ApplicationController
     end
 
     def register_service
-        @registed_service = @service.register_service(host: params[:host], gate_host: params[:gate_host])
-        if @registed_service.save
+        @registed_service = ServiceManager.register_service(@service, params[:host], params[:gate_host])
+        if @registed_service.valid?
             render json: {token: @registed_service.token}
         else
             render json: {

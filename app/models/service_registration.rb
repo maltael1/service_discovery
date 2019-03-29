@@ -6,6 +6,8 @@ class ServiceRegistration < ApplicationRecord
 
   enum status: [ :registred, :confirmed, :lost ]
 
+  scope :confirmed, -> { where(status: ServiceRegistration.statuses[:confirmed]) }
+
   def init_token
     self.token = Digest::MD5.hexdigest(Time.zone.now.to_s)
   end
