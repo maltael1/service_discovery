@@ -7,7 +7,7 @@
       <th scope="col">Name</th>
       <th scope="col">Code</th>
       <th scope="col">Count</th>
-      <th scope="col"></th>
+      <th colspan="2"></th>
     </tr>
   </thead>
   <tbody>
@@ -26,8 +26,10 @@
           <%= service.service_registrations.count%>
         </td>
         <td>
-          <%= link_to 'Edit', edit_service_path(service)%>
           <%= link_to 'Show', service_path(service)%>
+        </td>
+        <td>
+          <%= link_to 'Edit', edit_service_path(service)%>
         </td>
       </tr>
     <% end %>

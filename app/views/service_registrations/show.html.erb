@@ -2,12 +2,12 @@
 
 <p>
   <strong>Service:</strong>
-  <%= @service_registration.service %>
+  <%= link_to @service_registration.service.name, @service_registration.service %>
 </p>
 
 <p>
-  <strong>Status cd:</strong>
-  <%= @service_registration.status_cd %>
+  <strong>Status:</strong>
+  <%= @service_registration.status %>
 </p>
 
 <p>
@@ -16,14 +16,12 @@
 </p>
 
 <p>
-  <strong>Code:</strong>
-  <%= @service_registration.code %>
+  <strong>Gate host:</strong>
+  <%= @service_registration.gate_host %>
 </p>
 
 <p>
   <strong>Token:</strong>
   <%= @service_registration.token %>
 </p>
-
-<%= link_to 'Edit', edit_service_registration_path(@service_registration) %> |
-<%= link_to 'Back', service_registrations_path %>
+<%= link_to 'Edit', edit_service_registration_path(@service_registration), class: 'btn btn-info'  %>

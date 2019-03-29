@@ -1,35 +1,26 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Service Registrations</h1>
-
-<table>
+<table class="table">
   <thead>
     <tr>
+      <th>#</th>
       <th>Service</th>
-      <th>Status cd</th>
+      <th>Status</th>
       <th>Host</th>
-      <th>Code</th>
-      <th>Token/th>
-      <th colspan="3"></th>
+      <th>Gate host</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
   <tbody>
     <% @service_registrations.each do |service_registration| %>
       <tr>
-        <td><%= service_registration.service.name %></td>
-        <td><%= service_registration.status_cd %></td>
+        <td><%= service_registration.id %></td>
+        <td><%= link_to service_registration.service.name, service_registration.service %></td>
+        <td><%= service_registration.status %></td>
         <td><%= service_registration.host %></td>
-        <td><%= service_registration.code %></td>
-        <td><%= service_registration.token %></td>
+        <td><%= service_registration.gate_host %></td>
         <td><%= link_to 'Show', service_registration %></td>
         <td><%= link_to 'Edit', edit_service_registration_path(service_registration) %></td>
-        <td><%= link_to 'Destroy', service_registration, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Service Registration', new_service_registration_path %>

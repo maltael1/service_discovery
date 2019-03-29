@@ -14,9 +14,41 @@
       <strong>Code:</strong>
       <%= @service.code %>
     </p>
+
+     <p>
+      <strong>Token:</strong>
+      <%= @service.token %>
+    </p>
     <%= link_to 'Edit', edit_service_path(@service), class: 'btn btn-info' %>
   </div>
-  <div class="tab-pane fade" id="nav-registrations" role="tabpanel" aria-labelledby="nav-registrations-tab">...</div>
+  <div class="tab-pane fade" id="nav-registrations" role="tabpanel" aria-labelledby="nav-registrations-tab">
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Status</th>
+      <th>Host</th>
+      <th>Gate host</th>
+      <th>Token</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @service.service_registrations.each do |service_registration| %>
+      <tr>
+        <td><%= service_registration.id %></td>
+        <td><%= service_registration.status %></td>
+        <td><%= service_registration.host %></td>
+        <td><%= service_registration.gate_host %></td>
+        <td><%= service_registration.token %></td>
+        <td><%= link_to 'Show', service_registration %></td>
+        <td><%= link_to 'Edit', edit_service_registration_path(service_registration) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+  </div>
 </div>
 
 <script>

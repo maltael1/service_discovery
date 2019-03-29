@@ -11,6 +11,10 @@ class ServiceRegistrationsController < ApplicationController
   # GET /service_registrations/1
   # GET /service_registrations/1.json
   def show
+    drop_breadcumbs :services, services_path
+    drop_breadcumbs  @service_registration.service.name, service_path( @service_registration.service)
+    drop_breadcumbs :registrations
+    drop_breadcumbs @service_registration.id, service_registration_path(@service_registration.id)
   end
 
   # GET /service_registrations/new
@@ -20,6 +24,11 @@ class ServiceRegistrationsController < ApplicationController
 
   # GET /service_registrations/1/edit
   def edit
+    drop_breadcumbs :services, services_path
+    drop_breadcumbs  @service_registration.service.name, service_path( @service_registration.service)
+    drop_breadcumbs :registrations
+    drop_breadcumbs @service_registration.id, service_registration_path(@service_registration.id)
+    drop_breadcumbs :edit
   end
 
   # POST /service_registrations

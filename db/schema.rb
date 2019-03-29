@@ -14,10 +14,10 @@ ActiveRecord::Schema.define(version: 2019_03_24_170956) do
 
   create_table "service_registrations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "service_id"
-    t.integer "status_cd"
+    t.integer "status"
     t.string "host"
-    t.string "code"
     t.string "token"
+    t.string "gate_host"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["service_id"], name: "index_service_registrations_on_service_id"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2019_03_24_170956) do
   create_table "services", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "code"
+    t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

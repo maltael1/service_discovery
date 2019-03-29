@@ -1,6 +1,2 @@
-<h1>Editing Service Registration</h1>
-
+<h3>Editing Service Registration <%= link_to "##{@service_registration.id}", @service_registration %></h3>
 <%= render 'form', service_registration: @service_registration %>
-
-<%= link_to 'Show', @service_registration %> |
-<%= link_to 'Back', service_registrations_path %>
