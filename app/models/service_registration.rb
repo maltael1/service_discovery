@@ -3,6 +3,7 @@ class ServiceRegistration < ApplicationRecord
   
   validates :host, :gate_host, :service_id, :token, presence: true
   validates :host, :gate_host, :token, uniqueness: true
+  validates :host, :gate_host, http_url: true
 
   enum status: [ :registred, :confirmed, :lost ]
 

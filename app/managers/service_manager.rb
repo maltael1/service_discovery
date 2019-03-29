@@ -13,7 +13,7 @@ class ServiceManager
     def self.drop_service service_registration, with_call_job: true
         service_registration.status = ServiceRegistration.statuses[:lost]
         service_registration.save
-        call_update_job if with_call_job
+        call_updating_job if with_call_job
     end
 
     def self.confirm_service service_registration
