@@ -17,11 +17,6 @@ class ServiceRegistrationsController < ApplicationController
     drop_breadcumbs @service_registration.id, service_registration_path(@service_registration.id)
   end
 
-  # GET /service_registrations/new
-  def new
-    @service_registration = ServiceRegistration.new
-  end
-
   # GET /service_registrations/1/edit
   def edit
     drop_breadcumbs :services, services_path
@@ -29,22 +24,6 @@ class ServiceRegistrationsController < ApplicationController
     drop_breadcumbs :registrations
     drop_breadcumbs @service_registration.id, service_registration_path(@service_registration.id)
     drop_breadcumbs :edit
-  end
-
-  # POST /service_registrations
-  # POST /service_registrations.json
-  def create
-    @service_registration = ServiceRegistration.new(service_registration_params)
-
-    respond_to do |format|
-      if @service_registration.save
-        format.html { redirect_to @service_registration, notice: 'Service registration was successfully created.' }
-        format.json { render :show, status: :created, location: @service_registration }
-      else
-        format.html { render :new }
-        format.json { render json: @service_registration.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # PATCH/PUT /service_registrations/1
