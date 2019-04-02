@@ -24,7 +24,7 @@ class ServiceManager
     def self.active_registrations
         result = []
         Service.all.each do |service|
-            result[] = service.service_registrations.confirmed.first.host if service.service_registrations.confirmed.first.present?
+            result << service.service_registrations.confirmed.first if service.service_registrations.confirmed.first.present?
         end
         result
     end
@@ -55,11 +55,11 @@ class ServiceManager
     end
 
     def self.call_confirmation_job service_registration
-        ServiceConfirmJob.set(wait: 10.seconds).perform_later(service_registration)
+        ServiceConfirmJob.set(wait: 3.seconds).perform_later(service_registration)
     end
 
     def self.call_updating_job
-        ServiceUpdateJob.set(wait: 10.seconds).perform_later
+        ServiceUpdateJob.set(wait: 3.seconds).perform_later
     end
 
 end
