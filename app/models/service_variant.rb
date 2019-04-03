@@ -1,5 +1,5 @@
-class Service < ApplicationRecord
-    has_many :service_registrations
+class ServiceVariant < ApplicationRecord
+    has_many :services
     before_save :init_token
 
     private

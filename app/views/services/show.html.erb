@@ -1,58 +1,27 @@
-<nav>
-  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <a class="nav-item nav-link active" id="nav-info-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="true">Service</a>
-    <a class="nav-item nav-link" id="nav-registrations-tab" data-toggle="tab" href="#nav-registrations" role="tab" aria-controls="nav-registrations" aria-selected="false">Registrations</a>
-  </div>
-</nav>
-<div class="tab-content pt-4" id="nav-tabContent">
-  <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
-    <p>
-      <strong>Name:</strong>
-      <%= @service.name %>
-    </p>
-    <p>
-      <strong>Code:</strong>
-      <%= @service.code %>
-    </p>
+<p id="notice"><%= notice %></p>
 
-     <p>
-      <strong>Token:</strong>
-      <%= @service.token %>
-    </p>
-    <%= link_to 'Edit', edit_service_path(@service), class: 'btn btn-info' %>
-  </div>
-  <div class="tab-pane fade" id="nav-registrations" role="tabpanel" aria-labelledby="nav-registrations-tab">
-<table class="table">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Status</th>
-      <th>Host</th>
-      <th>Gate host</th>
-      <th>Token</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
+<p>
+  <strong>Service variant:</strong>
+  <%= link_to @service.service_variant.name, @service.service_variant %>
+</p>
 
-  <tbody>
-    <% @service.service_registrations.each do |service_registration| %>
-      <tr>
-        <td><%= service_registration.id %></td>
-        <td><%= service_registration.status %></td>
-        <td><%= service_registration.host %></td>
-        <td><%= service_registration.gate_host %></td>
-        <td><%= service_registration.token %></td>
-        <td><%= link_to 'Show', service_registration %></td>
-        <td><%= link_to 'Edit', edit_service_registration_path(service_registration) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-  </div>
-</div>
+<p>
+  <strong>Status:</strong>
+  <%= @service.status %>
+</p>
 
-<script>
-$(document).ready(function() {
-    $("#nav-tab").tabs();
-});
-</script>
+<p>
+  <strong>Host:</strong>
+  <%= @service.host %>
+</p>
+
+<p>
+  <strong>Gate host:</strong>
+  <%= @service.gate_host %>
+</p>
+
+<p>
+  <strong>Token:</strong>
+  <%= @service.token %>
+</p>
+<%= link_to 'Edit', edit_service_path(@service), class: 'btn btn-info'  %>

@@ -1,7 +1,7 @@
 class UniquenessConfirmedValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
-    unless value.present? && ServiceRegistration.where("#{attribute} = '#{value}'").where(status: ServiceRegistration.statuses[:confirmed]).first.nil?
+    unless value.present? && Service.where("#{attribute} = '#{value}'").where(status: Service.statuses[:confirmed]).first.nil?
       record.errors.add(attribute, "Service already confirmed")
     end
   end

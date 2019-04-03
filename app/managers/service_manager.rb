@@ -1,65 +1,69 @@
 class ServiceManager
 
-    def self.register_service service, host, gate_host
+    def self.register_service service_variant, host, gate_host
 
-        service_registration = find_inactive_service_registration service, host, gate_host
-        service_registration = register_inactive_service_registration service, host, gate_host if service_registration.nil?
-        service_registration.init_token
-        call_confirmation_job service_registration if service_registration.save
-        return service_registration
+        service = service_variant.services.innactive.find_by host: host, gate_host: gate_host
+        service = service_variant.services.build host: host, gate_host: gate_host if service.nil?
+        service.init_token
+        ServiceConfirmJob.set(wait: 3.seconds).perform_later(service) if service.save
+        service
 
     end
 
-    def self.drop_service service_registration, with_call_job: true
-        service_registration.status = ServiceRegistration.statuses[:lost]
-        service_registration.save
-        call_updating_job if with_call_job
+    def self.drop_service service
+
+        service.status = Service.statuses[:lost]
+        service.save
+
     end
 
-    def self.confirm_service service_registration
-        service_registration.status = ServiceRegistration.statuses[:confirmed]
-        service_registration.save
-    end
+    def self.confirm_service service
 
-    def self.active_registrations
-        result = []
-        Service.all.each do |service|
-            result << service.service_registrations.confirmed.first if service.service_registrations.confirmed.first.present?
+        service_logger = ServiceRequest.confirm_service(service)
+        if service_logger.ok?
+            service.status = Service.statuses[:confirm]
+            service.save
         end
-        result
+        service_logger
+
     end
 
-    def self.hosts_by_code
-        json = {}
-        active_registrations.each do |service_registration|
-            json[service_registration.service.code] = service_registration.host
+    def self.check_service service
+
+        service_logger = ServiceRequest.check_service service
+        if !service_logger.ok?
+            ServiceManager.drop_service service
         end
-        json
+        service_logger
+
     end
 
-    private 
+    def self.update_service service
 
-    def self.find_inactive_service_registration service, host, gate_host
-        service.service_registrations.where(
-            host: host, 
-            gate_host: gate_host
-        ).where.not(status: ServiceRegistration.statuses[:confirmed]).first
+        service_logger = ServiceRequest.update_service service
+        if !service_logger.ok?
+            ServiceManager.drop_service service
+        end
+        service_logger
     end
 
-    def self.register_inactive_service_registration service, host, gate_host
-        service.service_registrations.build(
-            host: host,
-            gate_host: gate_host,
-            status: ServiceRegistration.statuses[:registred]
-        )
+    def self.check_all_services
+
+        check_failture = false
+        Service.active.each do |service|
+            check_failture = true if !ServiceManager.check_service(service).ok?
+        end
+        ServiceManager.update_all_services if check_failture
+        
     end
 
-    def self.call_confirmation_job service_registration
-        ServiceConfirmJob.set(wait: 3.seconds).perform_later(service_registration)
-    end
+    def self.update_all_services
+        
+        update_failture = false
+        Service.active.each do |service|
+            update_failture = true if !ServiceManager.update_service(service).ok?
+        end
+        ServiceManager.update_all_service if update_failture
 
-    def self.call_updating_job
-        ServiceUpdateJob.set(wait: 3.seconds).perform_later
     end
-
 end

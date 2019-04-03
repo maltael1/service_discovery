@@ -1,63 +1,53 @@
-class ServiceRegistrationsController < ApplicationController
-  before_action :set_service_registration, only: [:show, :edit, :update, :destroy]
+class ServicesController < ApplicationController
+  before_action :set_service, only: [:show, :edit, :update, :destroy]
 
-  # GET /service_registrations
-  # GET /service_registrations.json
   def index
-    drop_breadcumbs :service_registrations, service_registrations_path
-    @service_registrations = ServiceRegistration.all
+    drop_breadcumbs :services, services_path
+    @services = Service.all
   end
 
-  # GET /service_registrations/1
-  # GET /service_registrations/1.json
   def show
     drop_breadcumbs :services, services_path
-    drop_breadcumbs  @service_registration.service.name, service_path( @service_registration.service)
+    drop_breadcumbs  @service.service_variant.name, service_path( @service.service_variant)
     drop_breadcumbs :registrations
-    drop_breadcumbs @service_registration.id, service_registration_path(@service_registration.id)
+    drop_breadcumbs @service.id, service_path(@service.id)
   end
 
-  # GET /service_registrations/1/edit
   def edit
     drop_breadcumbs :services, services_path
-    drop_breadcumbs  @service_registration.service.name, service_path( @service_registration.service)
+    drop_breadcumbs  @service.service_variant.name, service_path( @service.service_variant)
     drop_breadcumbs :registrations
-    drop_breadcumbs @service_registration.id, service_registration_path(@service_registration.id)
+    drop_breadcumbs @service.id, service_path(@service.id)
     drop_breadcumbs :edit
   end
 
-  # PATCH/PUT /service_registrations/1
-  # PATCH/PUT /service_registrations/1.json
   def update
     respond_to do |format|
-      if @service_registration.update(service_registration_params)
-        format.html { redirect_to @service_registration, notice: 'Service registration was successfully updated.' }
-        format.json { render :show, status: :ok, location: @service_registration }
+      if @service.update(service_params)
+        format.html { redirect_to @service, notice: 'Service was successfully updated.' }
+        format.json { render :show, status: :ok, location: @service }
       else
         format.html { render :edit }
-        format.json { render json: @service_registration.errors, status: :unprocessable_entity }
+        format.json { render json: @service.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /service_registrations/1
-  # DELETE /service_registrations/1.json
   def destroy
-    @service_registration.destroy
+    @service.destroy
     respond_to do |format|
-      format.html { redirect_to service_registrations_url, notice: 'Service registration was successfully destroyed.' }
+      format.html { redirect_to services_path, notice: 'Service was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_service_registration
-      @service_registration = ServiceRegistration.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def service_registration_params
-      params.require(:service_registration).permit(:service_id, :status_cd, :host, :code, :token)
-    end
+  def set_service
+    @service = Service.find(params[:id])
+  end
+
+  def service_params
+    params.require(:service).permit(:service_variant_id, :status_cd, :host, :code, :token)
+  end
 end

@@ -12,18 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2019_03_24_170956) do
 
-  create_table "service_registrations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "service_id"
-    t.integer "status"
-    t.string "host"
-    t.string "token"
-    t.string "gate_host"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["service_id"], name: "index_service_registrations_on_service_id"
-  end
-
-  create_table "services", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "service_variants", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "code"
     t.string "token"
@@ -31,5 +20,16 @@ ActiveRecord::Schema.define(version: 2019_03_24_170956) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "service_registrations", "services"
+  create_table "services", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "service_variant_id"
+    t.integer "status"
+    t.string "host"
+    t.string "token"
+    t.string "gate_host"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_variant_id"], name: "index_services_on_service_variant_id"
+  end
+
+  add_foreign_key "services", "service_variants"
 end

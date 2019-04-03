@@ -1,0 +1,37 @@
+
+<%= link_to 'New', new_service_variant_path, class: 'btn btn-primary mb-3'%>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Code</th>
+      <th scope="col">Count</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @service_variants.each do |service_variant|%>
+      <tr>
+        <th scope="row">
+          <%= service_variant.id %>
+        </th>
+        <td>
+          <%= service_variant.name %>
+        </td>
+        <td>
+          <%= service_variant.code %>
+        </td>
+        <td>
+          <%= service_variant.services.count%>
+        </td>
+        <td>
+          <%= link_to 'Show', service_variant_path(service_variant)%>
+        </td>
+        <td>
+          <%= link_to 'Edit', edit_service_variant_path(service_variant)%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
