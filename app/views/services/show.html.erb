@@ -1,7 +1,7 @@
 <nav>
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
     <a class="nav-item nav-link active" id="nav-info-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="true">Service</a>
-    <a class="nav-item nav-link" id="nav-services-tab" data-toggle="tab" href="#nav-logs" role="tab" aria-controls="nav-logs" aria-selected="false">Logs</a>
+    <a class="nav-item nav-link" id="nav-logs-tab" data-toggle="tab" href="#nav-logs" role="tab" aria-controls="nav-logs" aria-selected="false">Logs</a>
   </div>
 </nav>
 <div class="tab-content pt-4" id="nav-tabContent">
@@ -44,7 +44,7 @@
   </thead>
 
   <tbody>
-    <% @service.service_logs.each do |service_log| %>
+    <% @service.logs.each do |service_log| %>
       <tr>
         <td><%= service_log.id %></td>
         <td><%= service_log.status %></td>

@@ -1,5 +1,8 @@
 class ServiceVariant < ApplicationRecord
+
     has_many :services
+    has_many :logs, as: :reference
+
     before_save :init_token
 
     private

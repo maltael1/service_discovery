@@ -2,40 +2,47 @@ class ServiceRequest
 
     def self.check_service service
 
-        service_logger = ServiceLogger.new
+        result = Result.new
         uri = URI.parse(service.gate_host)
         params = {method: 'check'}
         begin 
             response = Net::HTTP.post_form(uri, params)
         rescue StandardError => e
-            service_logger.append "Invalid connection to '#{service.gate_host}'"
+            result.fail "Invalid connection to '#{service.gate_host}'"
         end
-        service_logger.append "Invalid status response (#{response.code})" if service_logger.ok? && response.code != '200'
-        service_logger
+        result.fail "Invalid status response (#{response.code})" if result.ok? && response.code != '200'
+        result
         
     end
 
     def self.confirm_service service
 
-        service_logger = ServiceLogger.new
+        result = Result.new
         uri = URI.parse(service.gate_host)
         params = {method: 'confirm', hashed_token: Digest::MD5.hexdigest(service.token)}
         begin 
             response = Net::HTTP.post_form(uri, params)
         rescue StandardError => e
-            service_logger.append "Invalid connection to '#{service.gate_host}'"
+            result.fail "Invalid connection to '#{service.gate_host}'"
         end
-        service_logger.append "Invalid status response (#{response.code})" if service_logger.ok? && response.code != '200'
-        service_logger.append "Invalid token" if service_logger.ok? && JSON.parse(response.body)['token'] != service_registration.token
-        service_logger
+        result.fail "Invalid status response (#{response.code})" if result.ok? && response.code != '200'
+        result.fail "Invalid token" if result.ok? && JSON.parse(response.body)['token'] != service.token
+        result
 
     end
 
-    def self.update_service
+    def self.update_service service
 
-        service_logger = ServiceLogger.new
-
-        service_logger
+        result = Result.new
+        uri = URI.parse(service.gate_host)
+        params = {method: 'update', services: Service.hosts_by_code}
+        begin 
+            response = Net::HTTP.post_form(uri, params)
+        rescue StandardError => e
+            result.fail "Invalid connection to '#{service.gate_host}'"
+        end
+        result.fail "Invalid status response (#{response.code})" if result.ok? && response.code != '200'
+        result
 
     end
 end

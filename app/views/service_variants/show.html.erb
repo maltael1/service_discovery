@@ -2,7 +2,7 @@
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
     <a class="nav-item nav-link active" id="nav-info-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="true">Service Variant</a>
     <a class="nav-item nav-link" id="nav-services-tab" data-toggle="tab" href="#nav-services" role="tab" aria-controls="nav-services" aria-selected="false">Services</a>
-  </div>
+    <a class="nav-item nav-link" id="nav-logs-tab" data-toggle="tab" href="#nav-logs" role="tab" aria-controls="nav-logs" aria-selected="false">Logs</a>  </div>
 </nav>
 <div class="tab-content pt-4" id="nav-tabContent">
   <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
@@ -44,6 +44,29 @@
         <td><%= service.token %></td>
         <td><%= link_to 'Show', service %></td>
         <td><%= link_to 'Edit', edit_service_path(service) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+  </div>
+  <div class="tab-pane fade" id="nav-logs" role="tabpanel" aria-labelledby="nav-logs-tab">
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Status</th>
+      <th>Message</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @service_variant.logs.each do |log| %>
+      <tr>
+        <td><%= log.id %></td>
+        <td><%= log.status %></td>
+        <td><%= log.message %></td>
+        <td><%= log.created_at %></td>
       </tr>
     <% end %>
   </tbody>

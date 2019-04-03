@@ -6,7 +6,7 @@ class ServiceManager
         service = service_variant.services.build host: host, gate_host: gate_host if service.nil?
         service.init_token
         if service.valid?
-            service.service_logs.build status: ServiceLog.statuses[:ok], message: 'Service was registred'
+            service.logs.build status: Log.statuses[:ok], message: 'Service was registred'
             service.save
             ServiceConfirmJob.set(wait: 3.seconds).perform_later(service)
         end
@@ -16,45 +16,70 @@ class ServiceManager
 
     def self.drop_service service
 
+        it_was_active_service = service.status == Service.statuses[:active]
         service.status = Service.statuses[:lost]
-        service.service_logs.build status: ServiceLog.statuses[:warning], message: 'Service was dropped'
+        service.logs.build status: Log.statuses[:warning], message: 'Service was dropped'
         service.save
+        ServiceManager.activate_service service.service_variant if it_was_active_service
 
     end
 
     def self.confirm_service service
 
-        service_logger = ServiceRequest.confirm_service(service)
-        if service_logger.ok?
-            service.status = Service.statuses[:confirm]
-            service.service_logs.build status: ServiceLog.statuses[:ok], message: 'Service was confirmed'
+        result = ServiceRequest.confirm_service(service)
+        if result.ok?
+            service.status = Service.statuses[:confirmed]
+            service.logs.build status: Log.statuses[:ok], message: 'Service was confirmed'
         else 
             service.status = Service.statuses[:lost]
-            service.service_logs.build status: ServiceLog.statuses[:error], message: "Service was't confirmed: #{service_logger.message}"
+            service.logs.build status: Log.statuses[:error], message: "Service was't confirmed: #{result.message}"
         end
         service.save
-        service_logger
+        ServiceManager.update_all_services if result.ok? && ServiceManager.activate_service(service.service_variant).ok?
+        result
 
     end
 
     def self.check_service service
 
-        service_logger = ServiceRequest.check_service service
-        if !service_logger.ok?
-            service.service_logs.create status: ServiceLog.states[:error], message: "Service checking error: #{service_logger.message}"
+        result = ServiceRequest.check_service service
+        if !result.ok?
+            service.logs.create status: Log.statuses[:error], message: "Service checking error: #{result.message}"
             ServiceManager.drop_service service
         end
-        service_logger
+        result
+
+    end
+
+    def self.activate_service service_variant
+
+        result = Result.new
+        activated_service = service_variant.services.active.first
+        last_confirmed_service = service_variant.services.confirmed.last
+        if activated_service.present?
+            result.fail "One activated service already present, it service with id: #{activated_service.id}"
+        elsif last_confirmed_service.nil?
+            result.fail "No confirmed service"
+            service_variant.logs.create status: Log.statuses[:error], message: "Service activation error: #{result.message}"
+        else
+            last_confirmed_service.status = Service.statuses[:active]
+            last_confirmed_service.logs.build status: Log.statuses[:ok], message: "Service was activated"
+            last_confirmed_service.save
+        end
+        result
 
     end
 
     def self.update_service service
 
-        service_logger = ServiceRequest.update_service service
-        if !service_logger.ok?
+        result = ServiceRequest.update_service service
+        if !result.ok?
+            service.logs.create status: Log.statuses[:error], message: "Service updating error: #{result.message}"
             ServiceManager.drop_service service
+        else
+            service.logs.create status: Log.statuses[:ok], message: "Service was updated"
         end
-        service_logger
+        result
     end
 
     def self.check_all_services
@@ -73,7 +98,8 @@ class ServiceManager
         Service.active.each do |service|
             update_failture = true if !ServiceManager.update_service(service).ok?
         end
-        ServiceManager.update_all_service if update_failture
+        ServiceManager.update_all_services if update_failture
 
     end
+
 end

@@ -1,8 +1,8 @@
-class ServiceLogger
+class Result
 
     attr_accessor :errors
 
-    def append param
+    def fail param
         @errors = [] if errors.nil? 
         @errors << param
     end
