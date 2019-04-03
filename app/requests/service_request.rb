@@ -1,14 +1,26 @@
 class ServiceRequest
 
-    def check_service
+    def self.check_service
+
+        service_logger = new ServiceLogger
+
+        service_logger
         
     end
 
-    def confirm_service
+    def self.confirm_service
+
+        service_logger = new ServiceLogger
+
+        service_logger
 
     end
 
-    def update_service
+    def self.update_service
+
+        service_logger = new ServiceLogger
+
+        service_logger
 
     end
 end

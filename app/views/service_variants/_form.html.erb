@@ -1,5 +1,5 @@
-<% action = service_variant.new_record? ? 'Create' : 'Update' %>
-<%= form_with(model: service_variant, local: true) do |form| %>
+<% action = @service_variant.new_record? ? 'Create' : 'Update' %>
+<%= form_with(model: @service_variant, local: true) do |form| %>
   <div class="form-group row">
      <%= form.label :name, class: 'col-sm-2 col-form-label'%>
     <div class="col-sm-5">

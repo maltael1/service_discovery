@@ -2,21 +2,21 @@ class ServicesController < ApplicationController
   before_action :set_service, only: [:show, :edit, :update, :destroy]
 
   def index
-    drop_breadcumbs :services, services_path
+    drop_breadcumbs :services, service_variants_path
     @services = Service.all
   end
 
   def show
-    drop_breadcumbs :services, services_path
-    drop_breadcumbs  @service.service_variant.name, service_path( @service.service_variant)
-    drop_breadcumbs :registrations
+    drop_breadcumbs :service_variants, service_variants_path
+    drop_breadcumbs  @service.service_variant.name, service_variant_path( @service.service_variant)
+    drop_breadcumbs :services
     drop_breadcumbs @service.id, service_path(@service.id)
   end
 
   def edit
-    drop_breadcumbs :services, services_path
-    drop_breadcumbs  @service.service_variant.name, service_path( @service.service_variant)
-    drop_breadcumbs :registrations
+    drop_breadcumbs :service_variants, services_path
+    drop_breadcumbs  @service.service_variant.name, service_variant_path( @service.service_variant)
+    drop_breadcumbs :services
     drop_breadcumbs @service.id, service_path(@service.id)
     drop_breadcumbs :edit
   end

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  resources :service_registrations, except: [:new, :create]
-  resources :services
+  resources :services, except: [:new, :create]
+  resources :service_variants
 
   root to: 'dashboard#index'
 
