@@ -10,4 +10,8 @@ class ServiceLogger
     def ok?
         @errors.nil?
     end
+
+    def message
+        @errors.last
+    end
 end

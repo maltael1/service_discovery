@@ -1,5 +1,7 @@
 class Service < ApplicationRecord
   belongs_to :service_variant
+
+  has_many :service_logs
   
   validates :host, :gate_host, :service_variant_id, :token, presence: true
   validates :token, uniqueness: true

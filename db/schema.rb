@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_24_170956) do
+ActiveRecord::Schema.define(version: 2019_04_03_131646) do
+
+  create_table "service_logs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "status"
+    t.bigint "service_id"
+    t.string "message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["service_id"], name: "index_service_logs_on_service_id"
+  end
 
   create_table "service_variants", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -31,5 +40,6 @@ ActiveRecord::Schema.define(version: 2019_03_24_170956) do
     t.index ["service_variant_id"], name: "index_services_on_service_variant_id"
   end
 
+  add_foreign_key "service_logs", "services"
   add_foreign_key "services", "service_variants"
 end

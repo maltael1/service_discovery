@@ -1,7 +1,13 @@
-<p id="notice"><%= notice %></p>
-
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-info-tab" data-toggle="tab" href="#nav-info" role="tab" aria-controls="nav-info" aria-selected="true">Service</a>
+    <a class="nav-item nav-link" id="nav-services-tab" data-toggle="tab" href="#nav-logs" role="tab" aria-controls="nav-logs" aria-selected="false">Logs</a>
+  </div>
+</nav>
+<div class="tab-content pt-4" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
 <p>
-  <strong>Service variant:</strong>
+  <strong>Variant:</strong>
   <%= link_to @service.service_variant.name, @service.service_variant %>
 </p>
 
@@ -25,3 +31,34 @@
   <%= @service.token %>
 </p>
 <%= link_to 'Edit', edit_service_path(@service), class: 'btn btn-info'  %>
+  </div>
+  <div class="tab-pane fade" id="nav-logs" role="tabpanel" aria-labelledby="nav-logs-tab">
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Status</th>
+      <th>Message</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @service.service_logs.each do |service_log| %>
+      <tr>
+        <td><%= service_log.id %></td>
+        <td><%= service_log.status %></td>
+        <td><%= service_log.message %></td>
+        <td><%= service_log.created_at %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $("#nav-tab").tabs();
+});
+</script>
