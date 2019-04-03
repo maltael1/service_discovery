@@ -1,12 +1,13 @@
 class ServiceLogger
 
-    @errors = {}
+    attr_accessor :errors
 
-    def errors
-        @errors
+    def append param
+        @errors = [] if errors.nil? 
+        @errors << param
     end
 
     def ok?
-        @errors.empty?
+        @errors.nil?
     end
 end

@@ -11,6 +11,7 @@ class Service < ApplicationRecord
   scope :confirmed, -> { where(status: Service.statuses[:confirmed]) }
   scope :innactive, -> { where.not(status: Service.statuses[:confirmed]) }
   scope :active, -> {confirmed.group(:service_variant_id)}
+
   def init_token
     self.token = Digest::MD5.hexdigest(Time.zone.now.to_s)
   end
@@ -21,6 +22,6 @@ class Service < ApplicationRecord
         json[service.service_variant.code] = service.host
     end
     json
-end
+  end
 
 end

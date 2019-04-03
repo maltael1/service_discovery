@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2019_03_24_170956) do
 
   create_table "services", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "service_variant_id"
-    t.integer "status"
+    t.integer "status", default: 0
     t.string "host"
     t.string "token"
     t.string "gate_host"
