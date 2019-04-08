@@ -3,6 +3,7 @@ class Result
     attr_accessor :errors
 
     def fail param
+        puts param
         @errors = [] if errors.nil? 
         @errors << param
     end

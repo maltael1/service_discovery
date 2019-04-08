@@ -8,7 +8,7 @@ class Service < ApplicationRecord
   validates :host, :gate_host, uniqueness_confirmed: true
   validates :host, :gate_host, http_url: true
 
-  enum status: [ :registred, :confirmed, :lost, :active ]
+  enum status: [ :registred, :confirmed, :lost, :activated ]
 
   scope :confirmed, -> { where(status: Service.statuses[:confirmed]) }
   scope :innactive, -> { where.not(status: Service.statuses[:confirmed]) }

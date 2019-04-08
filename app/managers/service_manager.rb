@@ -16,7 +16,7 @@ class ServiceManager
 
     def self.drop_service service
 
-        it_was_active_service = service.status == Service.statuses[:active]
+        it_was_active_service = service.status == 'activated'
         service.status = Service.statuses[:lost]
         service.logs.build status: Log.statuses[:warning], message: 'Service was dropped'
         service.save
@@ -35,7 +35,7 @@ class ServiceManager
             service.logs.build status: Log.statuses[:error], message: "Service was't confirmed: #{result.message}"
         end
         service.save
-        ServiceManager.update_all_services if result.ok? && ServiceManager.activate_service(service.service_variant).ok?
+        ServiceManager.activate_service(service.service_variant) if result.ok?
         result
 
     end
@@ -52,7 +52,6 @@ class ServiceManager
     end
 
     def self.activate_service service_variant
-
         result = Result.new
         activated_service = service_variant.services.active.first
         last_confirmed_service = service_variant.services.confirmed.last
@@ -62,9 +61,10 @@ class ServiceManager
             result.fail "No confirmed service"
             service_variant.logs.create status: Log.statuses[:error], message: "Service activation error: #{result.message}"
         else
-            last_confirmed_service.status = Service.statuses[:active]
+            last_confirmed_service.status = Service.statuses[:activated]
             last_confirmed_service.logs.build status: Log.statuses[:ok], message: "Service was activated"
             last_confirmed_service.save
+            ServiceManager.update_all_services
         end
         result
 

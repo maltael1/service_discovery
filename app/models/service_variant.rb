@@ -3,7 +3,7 @@ class ServiceVariant < ApplicationRecord
     has_many :services
     has_many :logs, as: :reference
 
-    before_save :init_token
+    before_save :init_token, if: Proc.new { |service_variant| service_variant.token.nil? }
 
     private
     
